@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مرتضی وایسموردی | توسعه‌دهنده Full-Stack Django</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f8f9fc;
+            --text: #1a1a2e;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --card: rgba(255, 255, 255, 0.7);
+            --border: rgba(99, 102, 241, 0.2);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --text: #e2e8f0;
+            --primary: #818cf8;
+            --primary-dark: #6366f1;
+            --card: rgba(15, 23, 42, 0.7);
+            --border: rgba(129, 140, 248, 0.15);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 1000;
+        }
+
+        .theme-toggle input {
+            display: none;
+        }
+
+        .theme-toggle label {
+            cursor: pointer;
+            width: 52px;
+            height: 28px;
+            background: #cbd5e1;
+            border-radius: 50px;
+            position: relative;
+            transition: 0.3s;
+            display: block;
+        }
+
+        .theme-toggle label::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: 0.3s;
+        }
+
+        #dark-mode:checked+label {
+            background: var(--primary);
+        }
+
+        #dark-mode:checked+label::after {
+            transform: translateX(24px);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            color: #64748b;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2.2rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+            background: var(--primary-dark);
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .skills-grid,
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .project-links a {
+            margin-left: 1rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact {
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            font-size: 1.6rem;
+        }
+
+        .social-links a {
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: scale(1.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 4rem 0 3rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <input type="checkbox" id="dark-mode">
+        <label for="dark-mode"></label>
+    </div>
+
+    <div class="container">
+
+        <header class="hero">
+            <h1>مرتضی وایسموردی</h1>
+            <p>توسعه‌دهنده Full-Stack | متخصص Django & Python | علاقه‌مند به e-commerce و AI</p>
+            <a href="https://github.com/MortezaVeismordi" target="_blank" class="btn">مشاهده گیت‌هاب من</a>
+        </header>
+
+        <section id="about">
+            <h2>درباره من</h2>
+            <div class="card">
+                <p>توسعه‌دهنده‌ای نتیجه‌گرا با تمرکز روی ساخت وب‌اپلیکیشن‌های مقیاس‌پذیر. تجربه کار با Django/DRF برای
+                    backend قوی، ادغام مدل‌های AI/ML با رابط کاربری، بهینه‌سازی دیتابیس و پیاده‌سازی فیچرهای real-time.
+                    همیشه به دنبال نوشتن کد تمیز، SOLID و قابل نگهداری هستم.</p>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>مهارت‌های کلیدی</h2>
+            <div class="skills-grid">
+                <div class="card">
+                    <h3>Backend</h3>
+                    <p>Django • Django REST Framework • Python • PostgreSQL</p>
+                </div>
+                <div class="card">
+                    <h3>Frontend</h3>
+                    <p>HTML5 • CSS3 • JavaScript • آشنایی با Next.js / React</p>
+                </div>
+                <div class="card">
+                    <h3>AI / ML</h3>
+                    <p>TensorFlow / PyTorch پایه • پروژه‌های تشخیص بیماری (MRI, Lung)</p>
+                </div>
+                <div class="card">
+                    <h3>Tools</h3>
+                    <p>Git • Docker • Linux • CI/CD پایه • Redis / Celery</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>پروژه‌های منتخب</h2>
+            <div class="projects-grid">
+                <div class="card">
+                    <h3>VibeVault</h3>
+                    <p>فروشگاه آنلاین حرفه‌ای (e-commerce premium) با پنل مدیریت کامل، سبد خرید، درگاه پرداخت، فیلتر
+                        پیشرفته و طراحی responsive. تمرکز روی تجربه کاربری بالا و عملکرد بهینه.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/MortezaVeismordi/VibeVault" target="_blank">گیت‌هاب ←</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>FarsiShopAgent</h3>
+                    <p>ایجنت هوشمند مبتنی بر LLM فارسی برای فروشگاه آنلاین — پردازش درخواست‌های طبیعی کاربران، پیشنهاد
+                        محصول، پشتیبانی خودکار و ادغام با پلتفرم فروش.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/MortezaVeismordi/FarsiShopAgent" target="_blank">گیت‌هاب ←</a>
+                    </div>
+                </div>
+
+                <!-- اگر پروژه دیگه‌ای داری، کارت مشابه اضافه کن -->
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2>تماس با من</h2>
+            <p>برای همکاری، پروژه یا فقط گپ زدن در مورد تکنولوژی!</p>
+
+            <div class="social-links">
+                <a href="https://github.com/MortezaVeismordi" target="_blank">GitHub</a>
+                <a href="mailto:your-real-email@gmail.com">ایمیل</a>
+                <a href="https://www.linkedin.com/in/your-linkedin" target="_blank">LinkedIn</a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>© ۱۴۰۴–۱۴۰۵ مرتضی وایسموردی • ساخته شده با HTML + CSS خالص</p>
+    </footer>
+
+</body>
+
+</html>
